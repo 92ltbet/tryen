@@ -1,49 +1,863 @@
-/* CSS cơ bản */
-body {
-    font-family: sans-serif;
+/* CSS cơ bản & Theme */
+:root {
+    --bg-color: #111827; /* gray-900 */
+    --text-color: #e5e7eb; /* gray-200 */
+    --text-color-light: #9ca3af; /* gray-400 */
+    --text-color-darker: #6b7280; /* gray-500 */
+    --primary-color: #ec4899; /* pink-500 */
+    --primary-color-darker: #db2777; /* pink-600 */
+    --secondary-color: #a855f7; /* purple-500 */
+    --gradient-start: var(--primary-color);
+    --gradient-end: var(--secondary-color);
+    --border-color: #374151; /* gray-700 */
+    --border-color-light: #4b5563; /* gray-600 */
+    --card-bg: #1f2937; /* gray-800 */
+    --card-bg-hover: #374151; /* gray-700 */
+    --header-height: 64px; /* Tăng chiều cao header */
+    --modal-bg: #111827e6; /* gray-900 with opacity for backdrop */
+    --scrollbar-thumb: rgba(255, 255, 255, 0.3);
+    --scrollbar-track: rgba(255, 255, 255, 0.1);
+}
+
+/* Reset & Base Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem 0;
-    text-align: center;
+body.dark-theme {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-header h1 {
-    margin: 0;
+.container {
+    max-width: 1030px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-nav ul li a {
-    color: #fff;
+a {
+    color: var(--primary-color);
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-main {
-    padding: 20px;
+a:hover {
+    color: var(--secondary-color);
 }
 
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-    position: fixed; /* Để tạm ở cuối trang */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: inherit;
+}
+
+/* Utility Classes */
+.desktop-only {
+    display: block;
+}
+.mobile-only {
+    display: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 9999px; /* Pill shape */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-darker);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-color-light);
+    border-color: var(--border-color-light);
+}
+
+.btn-secondary:hover {
+    background-color: var(--card-bg);
+    color: white;
+}
+
+/* Header */
+.site-header {
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* height is now auto based on content */
+}
+
+/* Header Top Bar */
+.header-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height); /* Use variable for top bar height */
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 1.25rem; /* text-xl */
+    font-weight: bold;
+}
+.logo-link:hover {
+    color: white;
+}
+
+.logo-icon {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+}
+
+/* Adjust desktop search bar to fit in top bar */
+.header-top-bar .search-bar {
+     flex-grow: 1; /* Allow search to take space */
+     margin: 0 20px; /* Space around search bar */
+     max-width: 500px; /* Limit max width */
+}
+
+.search-bar input {
+     /* width is now flexible */
+     flex-grow: 1;
+}
+
+.mobile-header-icons {
+    display: flex;
+    gap: 5px;
+}
+
+/* Desktop Header Actions in Top Bar */
+.header-top-bar .header-actions {
+     /* Styles kept, just ensure placement */
+}
+.action-icons {
+    display: flex;
+    gap: 5px;
+}
+.header-icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 1.2rem;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s, color 0.3s;
+}
+.header-icon-btn:hover {
+    background-color: var(--card-bg);
+    color: white;
+}
+.auth-buttons { display: flex; gap: 10px; }
+
+/* Header Main Nav Bar */
+.header-main-nav {
+    background-color: var(--bg-color); /* Might be slightly different if needed */
+    border-top: 1px solid var(--border-color);
+    height: 48px; /* Adjust height for nav bar */
+}
+
+.header-main-nav .container {
+    height: 100%;
+}
+
+.header-main-nav .main-nav {
+     height: 100%;
+}
+
+.main-nav ul {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 30px; /* Increased gap for main nav */
+}
+
+.main-nav ul li a,
+.main-nav ul li .nav-button {
+    padding: 0; /* Remove vertical padding, controlled by nav bar height */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative; /* For active indicator */
+}
+
+/* Add active indicator */
+.main-nav ul li a.active::after,
+.main-nav ul li .nav-button.open::after { /* Also show indicator when modal is open */
+    content: '';
+    position: absolute;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px 3px 0 0;
 }
 
-/* Thêm các style đẹp hơn sau */ 
+/* Genre Modal */
+.genre-menu-item { position: relative; }
+
+.genre-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Cover viewport */
+    inset: 0;
+    z-index: 1100;
+    justify-content: center;
+    align-items: flex-start; /* Align to top */
+    padding-top: 10vh; /* Khoảng cách từ top */
+    animation: fadeIn 0.3s ease-out forwards;
+}
+.genre-modal.open {
+    display: flex;
+}
+
+.genre-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--modal-bg);
+    backdrop-filter: blur(4px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideUp {
+     from { transform: translateY(0); opacity: 1; }
+     to { transform: translateY(-20px); opacity: 0; }
+}
+
+.genre-modal-content {
+    position: relative;
+    background-color: var(--bg-color);
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(236, 72, 153, 0.3);
+    border: 1px solid var(--border-color-light);
+    width: 600px;
+    max-width: 90vw;
+    max-height: 70vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideDown 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.modal-header-gradient {
+    height: 4px;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+}
+
+.modal-title {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+}
+
+.genre-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 0 24px 24px 24px;
+    overflow-y: auto;
+}
+
+.genre-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background-color: #ffffff0d; /* Slightly transparent white */
+    border-radius: 8px;
+    color: var(--text-color-light);
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.genre-link:hover {
+    background-color: #ffffff1a;
+    color: white;
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.2);
+}
+
+.genre-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease-in-out;
+}
+.genre-link:hover .genre-icon {
+    transform: scale(1.1);
+}
+.genre-icon i {
+    color: white;
+    font-size: 0.8em;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 1.2rem;
+    padding: 5px;
+    line-height: 1;
+}
+.close-modal-btn:hover { color: white; }
+
+/* Mobile Header & Nav */
+.mobile-nav {
+    display: none; /* Hidden by default */
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-color);
+    z-index: 1200;
+    flex-direction: column;
+    padding: 20px;
+    animation: slideInLeft 0.3s ease-out forwards;
+}
+.mobile-nav.open {
+    display: flex;
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+@keyframes slideOutLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-mobile-menu-btn {
+    font-size: 1.2rem; /* Match other icon buttons */
+}
+
+.mobile-search-bar {
+    display: flex;
+    margin-bottom: 20px;
+}
+.mobile-search-bar input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 20px 0 0 20px;
+    font-size: 1rem;
+    outline: none;
+}
+.mobile-search-bar button {
+     padding: 0 15px;
+     border: 1px solid var(--border-color);
+     border-left: none;
+     background-color: var(--card-bg);
+     color: var(--text-color-light);
+     border-radius: 0 20px 20px 0;
+     font-size: 1rem;
+}
+
+.mobile-nav ul {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.mobile-nav ul li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    color: var(--text-color-light);
+    border-bottom: 1px solid var(--border-color);
+}
+.mobile-nav ul li a:hover {
+    color: white;
+}
+.mobile-nav ul li:last-child a {
+    border-bottom: none;
+}
+
+.mobile-auth-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+.mobile-auth-buttons .btn {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Main Content */
+.site-main {
+    padding: 30px 0;
+}
+
+.comics-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 10px;
+    color: white; /* Make title white */
+}
+
+/* Comic Carousel - Enhanced Styling */
+.comic-carousel {
+    position: relative;
+    /* overflow: hidden; */ /* Allow seeing adjacent slides */
+    border-radius: 8px;
+    margin-bottom: 30px; /* Increased margin */
+    padding: 20px 0; /* Add vertical padding */
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+}
+
+.carousel-slider {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smoother transition */
+}
+
+.carousel-slide {
+    flex: 0 0 80%; /* Make slides less than 100% width */
+    margin: 0 2%; /* Add space between slides */
+    position: relative;
+    opacity: 0.5; /* Non-active slides more faded */
+    transform: scale(0.9); /* Non-active slides smaller */
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    border-radius: 8px;
+    overflow: hidden; /* Clip image corners */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Add shadow */
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Larger shadow for active */
+}
+
+/* Center the active slide (requires calculating offset in JS potentially, 
+   or using libraries. Simple translateX centers the container) */
+/* For pure CSS centering, often requires negative margins based on slide width, 
+   which is complex if width is percentage-based. Keeping translateX for now. */
+
+.carousel-slide img {
+    width: 100%;
+    aspect-ratio: 16 / 8; /* Adjust ratio slightly */
+    object-fit: cover;
+    /* Removed border-radius here, applied to .carousel-slide */
+}
+
+.slide-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.7) 50%, transparent);
+    padding: 50px 25px 25px 25px; /* More padding */
+    color: white;
+    opacity: 0; /* Hide by default */
+    transform: translateY(10px); /* Start slightly lower */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.carousel-slide.active .slide-info {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-info h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.slide-info p {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    margin-bottom: 10px;
+    /* Limit description lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.label {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.label-hot {
+    background: linear-gradient(45deg, #ff0000, #ff6b6b);
+}
+
+.label-new {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+}
+
+.carousel-control {
+    /* Slightly adjusted appearance */
+    width: 45px;
+    height: 45px;
+    font-size: 1.4rem;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.carousel-control:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.carousel-control.prev {
+    left: 5px; /* Closer to edge */
+}
+.carousel-control.next {
+    right: 5px; /* Closer to edge */
+}
+
+.carousel-indicators {
+    bottom: 15px; /* Slightly higher */
+}
+.carousel-indicators button {
+     width: 8px;
+     height: 8px;
+     background-color: rgba(255, 255, 255, 0.4);
+}
+.carousel-indicators button.active {
+     background-color: white;
+     transform: scale(1.2);
+}
+
+/* Comic Grid & Card */
+.comic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.comic-card {
+    background-color: transparent; /* Remove card bg */
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.comic-card:hover {
+    transform: translateY(-5px);
+}
+
+.comic-cover {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 6px; /* Rounded cover */
+    margin-bottom: 8px;
+}
+
+.comic-cover img {
+    width: 100%;
+    aspect-ratio: 2 / 3; /* More common comic ratio */
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.comic-card:hover .comic-cover img {
+    transform: scale(1.05);
+}
+
+/* Add a subtle overlay on hover */
+.comic-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.comic-card:hover .comic-cover::after {
+    opacity: 1;
+}
+
+.comic-title {
+    font-size: 0.9rem;
+    font-weight: 600; /* Slightly bolder */
+    padding: 0; /* Remove padding */
+    margin: 0 0 4px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.8em;
+    line-height: 1.4em;
+}
+
+.comic-title a {
+    color: var(--text-color);
+}
+
+.comic-title a:hover {
+    color: var(--primary-color);
+}
+
+.comic-chapter {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+    padding: 0; /* Remove padding */
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    padding: 40px 0 20px 0;
+    color: var(--text-color-light);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+}
+
+.footer-column a {
+    color: var(--text-color-light);
+    font-size: 0.9rem;
+}
+
+.footer-column a:hover {
+    color: white;
+}
+
+.footer-column p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    display: flex; /* Align icons */
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.footer-column .icon {
+    margin-top: 3px; /* Adjust icon position */
+    flex-shrink: 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-icons a {
+    color: var(--text-color-light);
+    font-size: 1.1rem;
+}
+.social-icons a:hover {
+    color: white;
+}
+
+.copyright {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-color-darker);
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.copyright .disclaimer {
+    margin-top: 5px;
+    font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) { /* Adjust breakpoint for hiding desktop nav */
+    .header-main-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-only { display: none !important; } /* Use !important to override */
+    .mobile-only { display: flex !important; } /* Use !important to override. Use flex for icons container */
+
+    .header-top-bar .search-bar {
+        display: none; /* Hide desktop search in top bar on mobile */
+    }
+    .mobile-header-icons {
+        display: flex; /* Ensure mobile icons container is flex */
+    }
+
+    /* Keep existing mobile styles */
+    .mobile-menu-toggle, .mobile-search-toggle {
+        display: block;
+    }
+
+    /* Carousel on Mobile */
+    .carousel-slide {
+        flex: 0 0 90%; /* Slightly wider on mobile */
+        margin: 0 1%;
+    }
+     .slide-info h3 {
+        font-size: 1.3rem;
+    }
+     .slide-info p {
+        font-size: 0.85rem;
+        -webkit-line-clamp: 1; /* Limit to 1 line on mobile */
+     }
+     .carousel-control {
+         width: 35px;
+         height: 35px;
+         font-size: 1rem;
+     }
+
+    /* Other existing mobile styles */
+    .site-main {
+        padding: 20px 0;
+    }
+    .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+    .comic-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+    }
+     .footer-container {
+         grid-template-columns: 1fr; /* Stack columns */
+         gap: 25px;
+    }
+
+    /* Genre Modal */
+    .genre-modal-content {
+        width: 90vw;
+        max-height: 80vh;
+    }
+    .genre-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+    }
+}
+
+/* Hide initial placeholder styles */
+.comic-card-placeholder {
+    display: none;
+}
+.placeholder-text {
+    display: none;
+}
+
+/* Prevent scrollbar jump */
+body.modal-open {
+    overflow: hidden;
+    /* padding-right: 15px; */ /* Commented out - might not be needed/ideal */
+} 
